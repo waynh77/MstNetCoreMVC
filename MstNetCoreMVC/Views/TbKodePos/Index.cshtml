@@ -1,0 +1,94 @@
+﻿@model PaginatedList<MstNetCoreMVC.Models.TbKodePos>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Master Kode Pos";
+}
+
+<h1>Master Kode Pos</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by Propinsi/Kabupaten: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-secondary" /> 
+            <a asp-action="Index" class="btn btn-success">Back to Full List</a>
+        </p>
+    </div>
+</form>
+
+<table class="table table-striped table-dark">
+    <thead>
+        <tr>
+            <th>
+                Kode Pos
+            </th>
+            <th>
+                Kelurahan
+            </th>
+            <th>
+                Kecamatan
+            </th>
+            <th>
+                Jenis
+            </th>
+            <th>
+                Kabupaten
+            </th>
+            <th>
+                Propinsi
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NoKodePos)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kelurahan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kecamatan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Jenis)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kabupaten)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Propinsi)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Edit</a> 
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Details</a> 
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>
